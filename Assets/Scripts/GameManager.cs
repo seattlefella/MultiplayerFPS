@@ -12,6 +12,10 @@ namespace Assets.Scripts
         private const string PLAYERIDPREFIX ="Player";
         private static string playerID = "TBD";
 
+        public delegate void    OnPlayerKilledCallback(string playerKilled, string sourceOfDamage);
+
+        public OnPlayerKilledCallback onPlayerKilledCallback;
+
         // the game manager will be set up as a singleton
         public static GameManager Instance;
         public MatchSettings MatchSettings;

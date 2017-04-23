@@ -148,8 +148,11 @@ namespace Assets.Scripts
             Player sourcePlayer = GameManager.GetPlayer(_sourceID);
             if (sourcePlayer != null)
             {
+                GameManager.Instance.onPlayerKilledCallback.Invoke(UserName, sourcePlayer.UserName);
                 sourcePlayer.Kills++;
             }
+
+ 
             Deaths++;
 
 
