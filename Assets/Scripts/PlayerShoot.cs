@@ -50,14 +50,14 @@ namespace Assets.Scripts
 				return;
 			}
 
-		    if (currentWeapon.Bullets < currentWeapon.MaxBullets)
-		    {
-		        if (Input.GetButtonDown("Reload"))
-		        {
-		            weaponManager.Reload();
-		            return;
-		        }		        
-		    }
+			if (currentWeapon.Bullets < currentWeapon.MaxBullets)
+			{
+				if (Input.GetButtonDown("Reload"))
+				{
+					weaponManager.Reload();
+					return;
+				}		        
+			}
 
 
 
@@ -115,10 +115,11 @@ namespace Assets.Scripts
 		[Client]
 		private void Shoot()
 		{
-			if (!isLocalPlayer && !weaponManager.IsReloading)
+			if (!isLocalPlayer || weaponManager.IsReloading)
 			{
 				return;
 			}
+
 
 			if (currentWeapon.Bullets <= 0)
 			{
