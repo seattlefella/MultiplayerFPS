@@ -94,11 +94,11 @@ namespace Assets.Scripts
         [ClientRpc]
         void RpcOnReload()
         {
-            Animator animation = currentWeaponGraphics.GetComponent<Animator>();
+            Animator anmi = currentWeaponGraphics.GetComponent<Animator>();
 
-            if (animation != null)
+            if (anmi != null)
             {
-                animation.SetTrigger("Reload");
+                anmi.SetTrigger("Reload");
             }
         }
     }
