@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections;
 
 namespace Assets.Scripts
 {
@@ -9,6 +10,9 @@ namespace Assets.Scripts
         [SerializeField]
         private PlayerWeapon primaryWeapon;
         private PlayerWeapon currentWeapon;
+
+        // Reloading will take some time so we must track if we are in the reoad state
+        public bool IsReloading = false;
 
         private WeaponGraphics currentWeaponGraphics;
 
@@ -56,5 +60,46 @@ namespace Assets.Scripts
 
         }
 
+        public void Reload()
+        {
+            if (IsReloading)
+            {
+                return;
+            }
+
+            StartCoroutine(reload_CoRoutine());
+
+        }
+
+        private IEnumerator reload_CoRoutine()
+        {
+            IsReloading = true;
+
+            CmdOnReload();
+
+            // Let's replenish the magazine
+            currentWeapon.Bullets = currentWeapon.MaxBullets;
+
+            yield return new WaitForSeconds(currentWeapon.ReloadTime);
+
+            IsReloading = false;
+        }
+
+        [Command]
+        void CmdOnReload()
+        {
+            RpcOnReload();
+        }
+
+        [ClientRpc]
+        void RpcOnReload()
+        {
+            Animator anmi = currentWeaponGraphics.GetComponent<Animator>();
+
+            if (anmi != null)
+            {
+                anmi.SetTrigger("Reload");
+            }
+        }
     }
 }

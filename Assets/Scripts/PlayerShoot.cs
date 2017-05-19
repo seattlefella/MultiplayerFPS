@@ -50,6 +50,17 @@ namespace Assets.Scripts
 				return;
 			}
 
+			if (currentWeapon.Bullets < currentWeapon.MaxBullets)
+			{
+				if (Input.GetButtonDown("Reload"))
+				{
+					weaponManager.Reload();
+					return;
+				}		        
+			}
+
+
+
 			if (currentWeapon.FireRate <= 0f)
 			{
 				if (Input.GetButtonDown("Fire1"))
@@ -104,10 +115,23 @@ namespace Assets.Scripts
 		[Client]
 		private void Shoot()
 		{
-			if (!isLocalPlayer)
+			if (!isLocalPlayer || weaponManager.IsReloading)
 			{
 				return;
 			}
+
+
+			if (currentWeapon.Bullets <= 0)
+			{
+				// We are out of Ammo so let's reload
+				Debug.Log("The player:" + transform.name + " is out of bullets");
+			   weaponManager.Reload();
+				
+				return;
+			}
+
+			// So we have some bullets left, let's decrement the bullet count
+			currentWeapon.Bullets--;
 
 			// The player wants to shoot so we call the OnShoot method on the server so it can tell each client to show shooting effects.
 			CmdOnShoot();
@@ -121,9 +145,14 @@ namespace Assets.Scripts
 				}
 
 				// We hit an object in the scene so call the OnHit method that is on the server.
-				CmdOnHit(hit.point, hit.normal);
-				
+				CmdOnHit(hit.point, hit.normal);			
 			}
+
+		    if (currentWeapon.Bullets <= 0)
+		    {
+		        weaponManager.Reload();
+		    }
+
 		}
 
 		[Command]

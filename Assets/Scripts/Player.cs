@@ -243,5 +243,10 @@ namespace Assets.Scripts
 
         }
 
+        public float GetHealthPct()
+        {
+            return (float) currentHealth / maxHealth;
+        }
+
     }
 }

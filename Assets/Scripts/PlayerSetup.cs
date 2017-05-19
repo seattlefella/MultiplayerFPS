@@ -65,7 +65,7 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                   ui.SetController(GetComponent<PlayerController>());
+                   ui.SetPlayer(GetComponent<Player>());
                 }
 
                 GetComponent<Player>().SetupPlayer();
