@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -8,8 +9,17 @@ namespace Assets.Scripts
         [SerializeField]
         private RectTransform thrusterFuelFill;
 
+        [SerializeField]
+        private RectTransform healthBarFill;
+
+        [SerializeField] private Text ammoText;
+
         private Vector3 fuelLevel = new Vector3(1f,1f,1f);
+        private Vector3 healthLevel = new Vector3(1f, 1f, 1f);
         private PlayerController controller;
+        private WeaponManager weaponManager;
+
+        private Player player;
 
         [SerializeField]
         private GameObject pauseMenu;
@@ -23,9 +33,22 @@ namespace Assets.Scripts
             thrusterFuelFill.localScale = fuelLevel;
         }
 
-        public void SetController(PlayerController _controller)
+
+        private void SetHealthAmount(float _amount)
         {
-            controller = _controller;
+            healthLevel.y = _amount;
+            healthBarFill.localScale = healthLevel;
+        }
+
+        public void SetPlayer(Player _player)
+        {
+            if (_player == null)
+            {
+                Debug.LogError("There was no player sent as an arg in SetPlayer in the PlayerUI.cs");
+            }
+            player = _player;
+            controller = player.GetComponent<PlayerController>();
+            weaponManager = player.GetComponent<WeaponManager>();
         }
 
         void Start()
@@ -36,7 +59,21 @@ namespace Assets.Scripts
 
         void Update()
         {
-            SetFuelAmount(controller.GetThrusterFuelAmount());
+            if (controller != null)
+            {
+                 SetFuelAmount(controller.GetThrusterFuelAmount());
+            }
+
+            if (player != null)
+            {
+             SetHealthAmount(player.GetHealthPct());               
+            }
+
+            if (weaponManager != null)
+            {
+             SetAmmoAmount(weaponManager.GetCurrentWeapon().Bullets);               
+            }
+
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -48,6 +85,16 @@ namespace Assets.Scripts
                 ToggleScoreMenu();
             }
         }
+
+        private void SetAmmoAmount(int _amount)
+        {
+            if (ammoText != null)
+            {
+              ammoText.text = _amount.ToString();              
+            }
+
+        }
+
 
         public void TogglePauseMenu()
         {
