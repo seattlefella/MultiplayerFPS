@@ -11,7 +11,7 @@ namespace Assets.Scripts
         private PlayerWeapon primaryWeapon;
         private PlayerWeapon currentWeapon;
 
-        // Reloading will take some time so we must track if we are in the reoad state
+        // Reloading will take some time so we must track if we are in the reload state
         public bool IsReloading = false;
 
         private WeaponGraphics currentWeaponGraphics;

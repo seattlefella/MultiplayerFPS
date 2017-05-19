@@ -8,7 +8,7 @@ namespace Assets.Scripts
     {
         // The weapons operational parameters
         public string Name = "Glock";
-        public float FireRate = 10f;
+        public float FireRate = -1f;
         public int Damage = 10;
         public float Range = 100f;
 
