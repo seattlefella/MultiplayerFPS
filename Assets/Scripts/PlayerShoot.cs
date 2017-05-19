@@ -60,18 +60,20 @@ namespace Assets.Scripts
 			}
 
 
-
+//TODO: how is the rate set.  When I change player weapon values they have no effect I must change values in the editior.
 			if (currentWeapon.FireRate <= 0f)
 			{
 				if (Input.GetButtonDown("Fire1"))
 				{
 					Shoot();
+					//Debug.Log("------------------------------Fire down event happened-first" + "The fire rate is: " + currentWeapon.FireRate.ToString());
 				}
 			}
 			else
 			{
 				if (Input.GetButtonDown("Fire1"))
 				{
+					//Debug.Log("------------------------------Fire down event happened-second" + "The fire rate is: " + currentWeapon.FireRate.ToString());
 					InvokeRepeating("Shoot", 0f, 1f/currentWeapon.FireRate);
 				} else if (Input.GetButtonUp("Fire1"))
 				{
@@ -148,10 +150,10 @@ namespace Assets.Scripts
 				CmdOnHit(hit.point, hit.normal);			
 			}
 
-		    if (currentWeapon.Bullets <= 0)
-		    {
-		        weaponManager.Reload();
-		    }
+			if (currentWeapon.Bullets <= 0)
+			{
+				weaponManager.Reload();
+			}
 
 		}
 
