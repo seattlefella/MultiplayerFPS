@@ -145,9 +145,14 @@ namespace Assets.Scripts
 				}
 
 				// We hit an object in the scene so call the OnHit method that is on the server.
-				CmdOnHit(hit.point, hit.normal);
-				
+				CmdOnHit(hit.point, hit.normal);			
 			}
+
+		    if (currentWeapon.Bullets <= 0)
+		    {
+		        weaponManager.Reload();
+		    }
+
 		}
 
 		[Command]
